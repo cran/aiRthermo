@@ -1,7 +1,7 @@
 Package: aiRthermo
 Type: Package
 Title: Atmospheric Thermodynamics and Visualization
-Version: 1.0
+Version: 1.1
 Date: 2017-07-11
 Author: Jon Sáenz, Santos J. González-Rojí, Sheila Carreno-Madinabeitia and Gabriel Ibarra-Berastegi
 Maintainer: Santos J. González-Rojí <santosjose.gonzalez@ehu.eus>
@@ -10,5 +10,5 @@ License: GPL-3
 Encoding: UTF-8
 Repository: CRAN
 NeedsCompilation: yes
-Packaged: 2017-07-15 12:17:49 UTC; Santitxu
-Date/Publication: 2017-07-15 21:03:26 UTC
+Packaged: 2017-08-07 15:16:14 UTC; Santitxu
+Date/Publication: 2017-08-07 19:38:38 UTC

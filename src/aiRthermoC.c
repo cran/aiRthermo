@@ -68,9 +68,9 @@ void kindex_Rworld( double *Ps , double *Ts ,
 
 
 void TTindex_Rworld(double *Pvalues, double *Tvalues, double *wvalues, 
-		      int nlevels,int doLog, double *result)
+		      int *nlevels,int *doLog, double *result)
 {
-  *result=TTindex(Pvalues, Tvalues, wvalues,nlevels,doLog);
+  *result=TTindex(Pvalues, Tvalues, wvalues,*nlevels,*doLog);
 }
 
 void Sindex_Rworld(double *Pvalues, double *Tvalues, double *wvalues,
@@ -2084,4 +2084,5 @@ int CAPE_CIN_C( double p0,
   }
   return 0;
 }
+
 

@@ -1,4 +1,4 @@
-9a0e1591e3967cd268512077c51ac352 *DESCRIPTION
+153ec657d9a078bc0d6587b8c5528224 *DESCRIPTION
 f86fb8c1d735b50bf0422858d7657aac *NAMESPACE
 552d1b36b945790dd937520a966afcb3 *R/AnyAdiabaticDown.R
 b72c219f0c5e74613ef33b0548a030b7 *R/C2K.R
@@ -14,7 +14,7 @@ b55be33bdf47994b80827207ed93fa99 *R/PW.R
 05a2e45e5eddb175f7ae03b4e1edf8b1 *R/TTheta2P.R
 1a519684f95b403419289ffe22bc8011 *R/TTindex.R
 09745e499f8c1606198ce240fad59755 *R/adiabatic_ascent.R
-a23b708d8bb8c1483227f5198248934a *R/aiRthermo-internal.R
+3b0e8f31d51fea8a3e1f35f10997d69d *R/aiRthermo-internal.R
 9fc0b777b8d904c52ef1c42e9def5c1f *R/boltonTLCL.R
 a2c00381cd7dc8ab486d91f027551421 *R/bruntVaisallaOmegaSquared.R
 95cbf8e5d0ddfaa912db3308c04d9360 *R/densityDry.R
@@ -42,11 +42,11 @@ e83c0e1f14298251cffde7c0c157e0f9 *R/stuve_diagram.R
 736e79d5a6d8feaef5100b94f3567718 *R/virtual_temperature.R
 1f9dbf7c026e5532125b3fec530f8c4f *R/w2Td.R
 822c1b48dcfc10cb6e00703482f90fe2 *R/w2q.R
-7cecaff944415178f3bdb793c1701b0a *data/RadiosondeA.rda
-59cb479e615f4528d36dc31e3118842c *data/RadiosondeD.rda
-a28d10b1aaa129c1164e6687c1ea44db *data/RadiosondeDavenport.rda
-2b21fa73698bb8bef052ffa643e40463 *data/aiRthermoConstants.rda
-d9af3fbceaaa46218b5a45d2034611ec *data/fixedlines.rda
+519cb7495c22fcd05bf512c8d2fc811a *data/RadiosondeA.rda
+fe5859333d48d07e608a66112ae30c35 *data/RadiosondeD.rda
+25393a19fe30664061a393dcab225f2c *data/RadiosondeDavenport.rda
+a0a579108fe02ec28016c36f2f68408b *data/aiRthermoConstants.rda
+82cc102627ceedf81cb2a89af8422418 *data/fixedlines.rda
 0b317e37fec568de5b99d3e8368394e5 *man/AnyAdiabaticDown.Rd
 7b52c91874bf00c8ecdc10a930a9c83d *man/C2K.Rd
 18dbe45391c3ab879c644e86315010b8 *man/CAPE_CIN.Rd
@@ -94,6 +94,6 @@ f736ecb324216cd3b8c4bfbf05b9aeac *man/saturation_pressure_H2O.Rd
 f0f0e00dbec79bcc1027dd06a76a2fb6 *man/virtual_temperature.Rd
 0bc16808f0ef52a0b473d52ac7a2f29f *man/w2Td.Rd
 fd714a5b98a971d186e78fd488247861 *man/w2q.Rd
-1375877b5c9a52518d1e7c2428ee506b *src/aiRthermoC.c
+f4672d7c06339c9c213d2fa5d78d8179 *src/aiRthermoC.c
 e2686abf33665d6d28feedf08ea6713e *src/aiRthermoC.h
 f7044eef711101b04781875cfcca811b *src/aiRthermo_init.c
