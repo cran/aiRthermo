@@ -13,7 +13,7 @@ moistCv(w, consts = export_constants())
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{w}{
-  A vector with mixing ratio values (kg/kg)
+  A vector with mixing ratio values (kg/kg).
 }
   \item{consts}{
   The constants defined in \emph{aiRthermoConstants} data are necessary.
@@ -21,11 +21,10 @@ moistCv(w, consts = export_constants())
 }
 
 \value{
-This function returns the value of \eqn{c_v} corrected due to the existence of water vapour
+This function returns the value of \eqn{c_v} corrected due to the existence of water vapour.
 }
 \references{
-Tsonis, A. A. (2002). An Introduction to Atmospheric Thermodynamics, Cam-
-563 bridge University Press, Cambridge. Eq. 7.12.
+Tsonis, A. A. (2002). An Introduction to Atmospheric Thermodynamics, Cambridge University Press, Cambridge. Eq. 7.12.
 }
 
 \seealso{

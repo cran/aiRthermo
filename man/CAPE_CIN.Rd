@@ -2,7 +2,7 @@
 \alias{CAPE_CIN}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
- calculation of CAPE and CIN
+ Calculation of CAPE and CIN
 }
 \description{
 Taking into account the data obtained in a radiosonde, and after defining the initial values of the parcel, this function calculates the values of CAPE and CIN for the sounding.
@@ -14,13 +14,13 @@ checkBuoyancy = 0)
 }
 \arguments{
   \item{Ps}{
-Pressures (Pa) defining the sounding
+Pressures (Pa) defining the sounding.
 }
   \item{Ts}{
-Temperatures (K) defining the sounding
+Temperatures (K) defining the sounding.
 }
   \item{ws}{
-Mixing ratios (kg/kg) defining the sounding
+Mixing ratios (kg/kg) defining the sounding.
 }
   \item{deltaP}{
 The width (Pa) of the layers used in the calculation of the numerical solution for the vertical evolution. A default value of 5 Pa is used. It must be positive.
@@ -68,28 +68,28 @@ Returns:
 The real starting variable of the air parcel. It is a vector with 6 elements: P (Pa), Temp (K), w (kg/kg), theta (K), Tvirtual (K) and wsat (kg/kg). The values are computed depending on the input arguments.
 }
 \item{cape}{
-CAPE index (J/kg)
+CAPE index (J/kg).
 }
 \item{cin}{
-CIN index (J/kg) as a negative number
+CIN index (J/kg) as a negative number.
 }
 \item{apLCL}{
-Variables of the air parcel at the Lifting Condensation Level (LCL). It is returned as a vector with 6 elements: P (Pa), Temp (K), w (kg/kg), theta (K), virtualT (K) and wsat (kg/kg)
+Variables of the air parcel at the Lifting Condensation Level (LCL). It is returned as a vector with 6 elements: P (Pa), Temp (K), w (kg/kg), theta (K), virtualT (K) and wsat (kg/kg).
 }
 \item{apLFC}{
-Variables of the Level of Free Convection (LFC). If LFC is found, it is returned as a vector with six elements: P (Pa), Temp (K), w (kg/kg), theta (K), virtualT (K) and wsat (kg/kg)
+Variables of the Level of Free Convection (LFC). If LFC is found, it is returned as a vector with six elements: P (Pa), Temp (K), w (kg/kg), theta (K), virtualT (K) and wsat (kg/kg).
 }
 \item{apEL}{
-End Level (EL). If EL is found, it is returned as a vector with six elements: P (Pa), Temp (K), w (kg/kg), theta (K), virtualT (K) and wsat (kg/kg)
+End Level (EL). If EL is found, it is returned as a vector with six elements: P (Pa), Temp (K), w (kg/kg), theta (K), virtualT (K) and wsat (kg/kg).
 }
 \item{gotLCL}{
-TRUE/FALSE whether the LCL has been found or not
+TRUE/FALSE whether the LCL has been found or not.
 }
 \item{gotLFC}{
-TRUE/FALSE whether the LFC has been found or not
+TRUE/FALSE whether the LFC has been found or not.
 }
 \item{gotEL}{
-TRUE/FALSE whether the EL has been found or not
+TRUE/FALSE whether the EL has been found or not.
 }
 \item{Pl}{
 Pressure (Pa) at every step of the lifted particle during its evolution. If requested by using getLiftedBack==TRUE, every step until the end of the radiosonde is returned.
@@ -101,10 +101,10 @@ Temp (K) at every step of the lifted particle during its evolution. If requested
 Mixing-ratio of the lifted particle during its evolution. If requested by using getLiftedBack==TRUE, every step until the end of the radiosonde is returned.
 }
 \item{Olifted}{
-Number of elements in  Pl/Tl/wl
+Number of elements in  Pl/Tl/wl.
 }
 \item{upToTop}{
-Process the whole sounding even after finding the first "EL level"
+Process the whole sounding even after finding the first "EL level".
 }
 \item{outCode}{
 The  error code returned by the C routine that computes CAPE/CIN. If 0, everything has been OK!

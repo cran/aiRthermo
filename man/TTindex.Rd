@@ -15,25 +15,25 @@ TTindex(Ps, Ts, ws, doLog = 0)
 
 \arguments{
   \item{Ps}{
-A vector with pressure values in Pa
+A vector with pressure values in Pa.
 }
   \item{Ts}{
-A vector with temperature values in Kelvin
+A vector with temperature values in Kelvin.
 }
   \item{ws}{
-A vector with mixing ratio values in kg/kg
+A vector with mixing ratio values in kg/kg.
 }
   \item{doLog}{
 Use logarithmic vertical interpolation between sounding levels. A default value is 0.
 }
 }
 \details{
-If the needed levels (850 hPa or 500 hPa) are not exactly found in the input sounding, logarithmic/linear vertical interpolation is run depending on the value of doLog (TRUE or FALSE)
+If the needed levels (850 hPa or 500 hPa) are not exactly found in the input sounding, logarithmic/linear vertical interpolation is run depending on the value of doLog (TRUE or FALSE).
 
 If the sounding does not enclose the needed levels and the interpolation fails, the function returns -99999999.
 }
 \value{
-This function returns the Total-Totals instability index (Celsius) 
+This function returns the Total-Totals instability index (Celsius).
 }
 
 \examples{

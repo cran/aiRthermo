@@ -13,7 +13,7 @@ moistCp(w, consts = export_constants())
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{w}{
-  A vector with mixing ratio values (kg/kg)
+  A vector with mixing ratio values (kg/kg).
 }
   \item{consts}{
   The constants defined in \emph{aiRthermoConstants} data are necessary. 
@@ -24,8 +24,7 @@ moistCp(w, consts = export_constants())
 This function returns the value of dry \eqn{c_p} corrected by the mixing ratio.
 }
 \references{
-Tsonis, A. A. (2002). An Introduction to Atmospheric Thermodynamics, Cam-
-563 bridge University Press, Cambridge. Eq. 7.11.
+Tsonis, A. A. (2002). An Introduction to Atmospheric Thermodynamics, Cambridge University Press, Cambridge. Eq. 7.11.
 }
 \seealso{
 \code{\link{w2q}} and 

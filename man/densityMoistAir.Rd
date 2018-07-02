@@ -5,7 +5,7 @@
 Density of Moist Air
 }
 \description{
-From pressure P (Pa) temperature Temp (K) and mixing ratio (kg/kg), this function calculates the density of moist air  (\eqn{kg/m^3})
+From pressure P (Pa) temperature Temp (K) and mixing ratio (kg/kg), this function calculates the density of moist air  (\eqn{kg/m^3}).
 }
 \usage{
 densityMoistAir(P, Temp, w, consts = export_constants())
@@ -13,13 +13,13 @@ densityMoistAir(P, Temp, w, consts = export_constants())
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{P}{
-    A vector with pressure values (Pa)
+    A vector with pressure values (Pa).
 }
   \item{Temp}{
-    A vector with temperature values (K)
+    A vector with temperature values (K).
 }
   \item{w}{
-  A vector with mixing ratio values (kg/kg)
+  A vector with mixing ratio values (kg/kg).
 }
   \item{consts}{
   The constants defined in \emph{aiRthermoConstants} data are necessary. 
@@ -27,7 +27,7 @@ densityMoistAir(P, Temp, w, consts = export_constants())
 }
 
 \value{
-A vector with density of moist air values is returned (\eqn{kg/m^3})
+A vector with density of moist air values is returned (\eqn{kg/m^3}).
 }
 
 

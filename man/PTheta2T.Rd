@@ -5,7 +5,7 @@
 Temperature from pressure and potential temperature
 }
 \description{
-This function calculates the temperature from a given pressure and potential temperature
+This function calculates the temperature from a given pressure and potential temperature.
 }
 \usage{
 PTheta2T(P, Theta, w = 0, consts = export_constants())

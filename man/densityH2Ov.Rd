@@ -5,17 +5,17 @@
 Density of water vapour
 }
 \description{
-From pressure of water vapour Pw (Pa) and temperature Temp (K), this function calculates density of water vapour (\eqn{kg/m^3})
+From pressure of water vapour Pw (Pa) and temperature Temp (K), this function calculates density of water vapour (\eqn{kg/m^3}).
 }
 \usage{
 densityH2Ov(Pw, Temp, consts = export_constants())
 }
 \arguments{
   \item{Pw}{
-    A vector with pressure water vapour values (Pa)
+    A vector with pressure water vapour values (Pa).
 }
   \item{Temp}{
-    A vector with temperature values (K)
+    A vector with temperature values (K).
 }
   \item{consts}{
   The constants defined in \emph{aiRthermoConstants} data are necessary.
@@ -23,7 +23,7 @@ densityH2Ov(Pw, Temp, consts = export_constants())
 }
 
 \value{
-A vector with density of water vapour values is returned (\eqn{kg/m^3})
+A vector with density of water vapour values is returned (\eqn{kg/m^3}).
 }
 
 \seealso{

@@ -5,7 +5,7 @@
 Compute Mixing Ratio from partial pressure of water vapour
 }
 \description{
- This function calculates the mixing ratio (kg/kg) from the partial vapour pressure of water vapour (Pa)
+ This function calculates the mixing ratio (kg/kg) from the partial vapour pressure of water vapour (Pa).
 }
 \usage{
 e2w(eh2o, P, consts = export_constants())
@@ -13,11 +13,11 @@ e2w(eh2o, P, consts = export_constants())
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{eh2o}{
-    A vector with partial pressure of water vapour (Pa)
+    A vector with partial pressure of water vapour (Pa).
 
 }
   \item{P}{
-    A vector with pressure (Pa) values
+    A vector with pressure (Pa) values.
 }
   \item{consts}{
   The constants defined in \emph{aiRthermoConstants} data are necessary. 
@@ -25,7 +25,7 @@ e2w(eh2o, P, consts = export_constants())
 }
 
 \value{
-A vector with mixing ratio values
+A vector with mixing ratio values.
 }
 
 

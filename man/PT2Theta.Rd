@@ -5,7 +5,7 @@
 Potential Temperature from pressure and temperature
 }
 \description{
-This function calculates the potential temperature from given temperature and pressure
+This function calculates the potential temperature from given temperature and pressure.
 }
 \usage{
 PT2Theta(P, Temp, w = 0, consts = export_constants())
@@ -13,11 +13,11 @@ PT2Theta(P, Temp, w = 0, consts = export_constants())
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{P}{
-A vector with pressure values (Pa)
+A vector with pressure values (Pa).
 
 }
   \item{Temp}{
-A vector with temperature values (K)
+A vector with temperature values (K).
 }
   \item{w}{
 A vector with mixing ratio values (kg/kg). Default value 0.

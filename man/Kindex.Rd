@@ -29,12 +29,12 @@ Use logarithmic vertical interpolation between sounding levels. The default valu
 }
 \details{
 If needed levels (850, 700 and 500 hPa) are not found in the input sounding (without extrapolation), the function returns -99999999.
-Use/do not use logarithmic interpolation in pressure (if needed because mandatory levels such as 700 hPa or 500 hPa are not given in the
-sounding) when finding the requested levels.
+
+Use/do not use logarithmic interpolation in pressure (if needed because mandatory levels such as 700 hPa or 500 hPa are not given in the sounding) when finding the requested levels.
 }
 \value{
 %%???
-This function returns the K index
+This function returns the K index.
 }
 
 \examples{

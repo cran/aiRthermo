@@ -2,40 +2,40 @@
 \alias{bruntVaisallaOmegaSquared}
 
 \title{
-Brunt-Vaisalla (angular) frequency
+Brunt-Vaisalla (angular) frequency (squared)
 }
 \description{
-Brunt-Vaisalla (angular) frequency (\eqn{s^{-2}}) considering hydrostatic equilibrium. P is used as a vertical level. 
+Brunt-Vaisalla (angular) frequency (aquared, \eqn{s^{-2}}) considering hydrostatic equilibrium. P is used as a vertical level. 
 }
 \usage{
 bruntVaisallaOmegaSquared(Ps, Ts, ws, consts = export_constants())
 }
 \arguments{
   \item{Ps}{
-    A vector with pressure values (Pa)
+    A vector with pressure values (Pa).
 }
   \item{Ts}{
-    A vector with temperature values (K)
+    A vector with temperature values (K).
 }
   \item{ws}{
-  A vector with mixing ratio values (kg/kg)
+  A vector with mixing ratio values (kg/kg).
 }
   \item{consts}{
   The constants defined in \emph{aiRthermoConstants} data are necessary. The constants g and Rd are used.
 }
 }
 \details{
-The angular frequency (squared, (\eqn{s^{-2}})) is returned in order to avoid complex numbers. 
+The angular frequency (squared, \eqn{s^{-2}}) is returned in order to avoid complex numbers. 
 }
 \value{
-omega_sq
+The Brunt-Vaisalla (angular) frequency (squared) is returned.
 
 }
 \note{
-For stable atmospheres, should be positive at every level. Ps, Ts and ws are 1D arrays
+For stable atmospheres, should be positive at every level. Ps, Ts and ws are 1D arrays.
 }
 \seealso{
-\code{\link{PT2Theta}} and \code{\link{densityMoistAir}} are used inside \code{bruntVaisallaOmegaSquared}. 
+\code{\link{PT2Theta}} and \code{\link{densityMoistAir}} are used inside \code{bruntVaisallaOmegaSquared} function. 
 }
 \examples{
 data(RadiosondeD)

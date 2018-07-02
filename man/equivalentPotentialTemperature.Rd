@@ -13,16 +13,16 @@ equivalentPotentialTemperature(P, Temp, w, TLCL, consts = export_constants())
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{P}{
-    The pressure (Pa) of the air parcel 
+    The pressure (Pa) of the air parcel.
 }
   \item{Temp}{
-    The temperature (K) of the parcel 
+    The temperature (K) of the parcel. 
 }
   \item{w}{
-  The mixing ratio (kg/kg) of the parcel
+  The mixing ratio (kg/kg) of the parcel.
 }
   \item{TLCL}{
-  The temperature (K) at the Lifting Condensation Level (LCL)
+  The temperature (K) at the Lifting Condensation Level (LCL).
 }
   \item{consts}{
   The constants defined in \emph{aiRthermoConstants} data are necessary. 
@@ -30,7 +30,7 @@ equivalentPotentialTemperature(P, Temp, w, TLCL, consts = export_constants())
 }
 
 \value{
-This function returns the value of the equivalent potential temp (K)
+This function returns the value of the equivalent potential temp (K).
 }
 \references{
 Davies-Jones, R. (2009). On formulas for equivalent potential temperature. Monthly Weather Review, 137(9), 3137-3148.

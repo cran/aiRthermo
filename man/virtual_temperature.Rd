@@ -13,13 +13,13 @@ virtual_temperature(P, Temp, w, consts = export_constants())
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{P}{
-A vector with pressure values in Pa
+A vector with pressure values in Pa.
 }
   \item{Temp}{
-  A vector with temperature values in Kelvin
+  A vector with temperature values in Kelvin.
 }
   \item{w}{
-A vector with mixing ratio values in kg/kg
+A vector with mixing ratio values in kg/kg.
 }
   \item{consts}{
 The constants defined in \emph{aiRthermoConstants} data are necessary. 
@@ -27,7 +27,7 @@ The constants defined in \emph{aiRthermoConstants} data are necessary.
 }
 
 \value{
-This function returns a vector with virtual temperature values
+This function returns a vector with virtual temperature values.
 }
 \seealso{
 \code{\link{q2e}}

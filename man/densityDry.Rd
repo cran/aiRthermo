@@ -5,7 +5,7 @@
 Density of Dry Air
 }
 \description{
-From pressure P (Pa) and temperature Temp (K), this funtion calculates the density of dry air in \eqn{kg/m^3}
+From pressure P (Pa) and temperature Temp (K), this funtion calculates the density of dry air in \eqn{kg/m^3}.
 }
 \usage{
 densityDry(P, Temp, consts = export_constants())
@@ -13,10 +13,10 @@ densityDry(P, Temp, consts = export_constants())
 
 \arguments{
   \item{P}{
-    A vector with pressure values (Pa)
+    A vector with pressure values (Pa).
 }
   \item{Temp}{
-    A vector with temperature values (K)
+    A vector with temperature values (K).
 }
   \item{consts}{
   The constants defined in \emph{aiRthermoConstants} data are necessary.
@@ -24,7 +24,7 @@ densityDry(P, Temp, consts = export_constants())
 }
 
 \value{
-A vector with density of dry air values is returned (\eqn{kg/m^3})
+A vector with density of dry air values is returned (\eqn{kg/m^3}).
 }
 
 

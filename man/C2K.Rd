@@ -13,14 +13,14 @@ C2K(Tc, consts = export_constants())
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Tc}{
-  A vector of temperatures in degrees Celsius 
+  A vector of temperatures in degrees Celsius.
 }
   \item{consts}{
   This funtion uses the \eqn{T_0} constant, corresponding to 0 degree Celsius expressed in K (273.15 K).
 }
 }
 \value{
-A vector of temperatures in Kelvin degrees is returned
+A vector of temperatures in Kelvin degrees is returned.
 }
 
 \seealso{

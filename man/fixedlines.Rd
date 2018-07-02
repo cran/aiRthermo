@@ -13,7 +13,7 @@ The pseudoadiabatic lines were calculated by the authors for this R-package foll
 The dry adiabatic lines were obtained using the functions in \emph{aiRthermo} for different initial conditions and for a fixed set of initial potential temperatures. A similar procedure was applied on the calculation of the constant mixing ratio lines, starting from different values of saturation mixing ratio.
 }
 \source{
-The data were calculated by the authors for this R-package
+The data were calculated by the authors for this R-package.
 }
 \usage{data(fixedlines)}
 

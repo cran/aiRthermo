@@ -13,13 +13,13 @@ TTdP2rh(Temp, Td, P, consts = export_constants())
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Temp}{
-A vector with temperature values in Kelvin
+A vector with temperature values in Kelvin.
 }
   \item{Td}{
-A vector with dew point temperature in Kelvin
+A vector with dew point temperature in Kelvin.
 }
   \item{P}{
-A vector with pressure values in Pa
+A vector with pressure values in Pa.
 }
   \item{consts}{
 The constants defined in \emph{aiRthermoConstants} data are necessary. 
@@ -27,7 +27,7 @@ The constants defined in \emph{aiRthermoConstants} data are necessary.
 }
 
 \value{
-This function returns a vector with relative humidity values
+This function returns a vector with relative humidity values.
 }
 \seealso{
 \code{\link{saturation_mixing_ratio}}

@@ -13,29 +13,29 @@ adiabatic_ascent(Pstart, Tstart, wstart, Pend, deltaP = 1)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Pstart}{
-   Initial value for pressure (Pa)
+   Initial value for pressure (Pa).
 }
   \item{Tstart}{
-   Initial value for temperature (K)
+   Initial value for temperature (K).
 }
   \item{wstart}{
-  Initial value for mixing ratio (kg/kg)
+  Initial value for mixing ratio (kg/kg).
 }
   \item{Pend}{
-   End value for pressure (Pa)
+   End value for pressure (Pa).
 }
   \item{deltaP}{
-  deltaP (Pa) represents the numerical increment used for integrating the Ordinary Differential Equation (ODE) representing the vertical evolution
+  deltaP (Pa) represents the numerical increment used for integrating the Ordinary Differential Equation (ODE) representing the vertical evolution.
 }
 }
 
 \value{
 The function returns a list that includes Tend (final value of temperature) and mixRatioEnd (mixing ratio of the air parcel at the end of the evolution).
   \item{Tend}{
-  Temperature at the end (K)
+  Temperature at the end (K).
 }
   \item{mixRatioEnd}{
-  Mixing ratio at the end (kg/kg)
+  Mixing ratio at the end (kg/kg).
 }
 
 }

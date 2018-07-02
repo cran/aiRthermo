@@ -4,16 +4,16 @@
 Find the Temperature at the Lifting Condensation Level (LCL) 
 }
 \description{
-This function is used to calculate the Temperature at the Lifting Condensation Level (LCL) using Bolton's approximation instead of integrating the Ordinary Differential Equation (ODE) upwards}
+This function is used to calculate the Temperature at the Lifting Condensation Level (LCL) using Bolton's approximation instead of integrating the Ordinary Differential Equation (ODE) upwards.}
 \usage{
 boltonTLCL(TempCelsius, rh, consts = export_constants())
 }
 \arguments{
   \item{TempCelsius}{
-Temperature in degrees Celsius
+Temperature in degrees Celsius.
 }
   \item{rh}{
-Relative humidity (\%)
+Relative humidity (\%).
 }
   \item{consts}{
  Includes the frecuently used constants in thermodynamics defined in 

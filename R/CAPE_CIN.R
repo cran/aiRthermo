@@ -1,3 +1,4 @@
+# tested by JS, 20180424
 CAPE_CIN <-
 function(Ps,Ts,ws,deltaP=5,
                    P0=NA,T0=NA,w0=NA,PlowTop=NA,precoolType="none",
@@ -75,7 +76,9 @@ function(Ps,Ts,ws,deltaP=5,
   if (precoolType=="isobaric"){
     precool<-2
   }
-  
+  if (abs(plow)>0){
+    precool<-2
+  } 
   if (getLiftedBack==TRUE){
     Nlifted=((Ps2[1]-Ps2[nlevs])/deltaP)+10
     Tl=rep(0,Nlifted)
@@ -139,37 +142,47 @@ function(Ps,Ts,ws,deltaP=5,
   
   # "Result" describes the problems obtained while the C code is running
   if(outvals$result==1){
-    warning("Your initial conditions are not reasonable. You are outside the sounding.")
-    
-  } else if (outvals$result==2 | outvals$result==3 | outvals$result==4 |outvals$result==5 | outvals$result==6 | outvals$result==7 | outvals$result==11 | outvals$result==12 | outvals$result==13 | outvals$result==14){
-    warning(paste("Code:",outvals$result,": Ambient parcel at initial state not inside sounding.",sep=" "))
-    
-  } else if (outvals$result==8){
-    warning("LFC and EL not found after arriving to the top of the sounding.")
-    
-  } else if (outvals$result==9){
-    warning("You must not be here. Send us an email telling You have found a Tyrannosaurus Rex.")
-    
-  } else if (outvals$result==10){
-    warning("You must not be here. Send us an email telling You have found a Velociraptor.")
+    warning("Initial conditions outside the sounding.")
+  }
+  if(outvals$result==2){
+    warning("Unable to get ambient data for initial conditions.")
+  }
+  if(outvals$result==3){
+    warning("Unable to get initial conditions during adiabatic precooling.")
+  }
+  if(outvals$result==4){
+    warning("Unable to get initial conditions during isobaric precooling.")
+  }
+  if(outvals$result==5){
+    warning("Unable to get initial conditions during isobaric precooling.")
+  }
+  if(outvals$result==6){
+    warning("Unable to get the value of initial parcel at the top of the slab.")
+  }
+  if(outvals$result==7){
+    warning("Unable to get the value of initial parcel at the top of the slab (LFC, EL or cycle).")
   }
   
-  if (outvals$cape<=-100000) {
+  # Check if outvals$ cape or cin are NaN
+  if(is.nan(outvals$cape)){
     outvals$cape=NA
   }
-  if (outvals$cin<=-100000){
+  if (is.nan(outvals$cin)){
     outvals$cin=NA
-  } 
+  }
+  
+  if(!is.na(outvals$cape) | !is.na(outvals$cin)){
+    if (outvals$cape<=-100000) {
+      outvals$cape=NA
+    }
+    if (outvals$cin<=-100000){
+      outvals$cin=NA
+    } 
+  }
   
   if (outvals$gotLCL==0 & outvals$gotLFC==0 & outvals$gotEL==0){
     print("Impossible to calculate the CAPE and the CIN")    
-  } else if (outvals$gotLCL==1 & outvals$gotLFC==0 & outvals$gotEL==0){
-    print("Impossible to calculate the CAPE and the CIN.")
-  } else if(outvals$gotLCL==1 & outvals$gotLFC==1 & outvals$gotEL==0){
-    print("The CIN was calculated. Not the CAPE.")
-  } else if(outvals$gotLCL==1 & outvals$gotLFC==1 & outvals$gotEL==1){
-    print("The CIN and the CAPE were calculated.")
-  }
+  } 
   
   outvals2<-list(outvals$airStart,outvals$cape,outvals$cin,
                  outvals$apLCL,outvals$apLFC,outvals$apEL,

@@ -14,12 +14,12 @@ q2w(q)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{q}{
-A vector with specific humidity values (kg/kg)
+A vector with specific humidity values (kg/kg).
 
 }
 }
 \value{
-This function returns a vector with mixing ratio values in kg/kg
+This function returns a vector with mixing ratio values in kg/kg.
 }
 \examples{
 data(RadiosondeD)

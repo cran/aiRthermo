@@ -12,10 +12,10 @@ TTheta2P(Temp, Theta, w = 0, consts = export_constants())
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Temp}{
-  A vector with temperature values in Kelvin
+  A vector with temperature values in Kelvin.
 }
   \item{Theta}{
-A vector with potential temperature values in Kelvin
+A vector with potential temperature values in Kelvin.
 }
   \item{w}{
 Initial value of mixing ratio (kg/kg). By default 0.
@@ -25,7 +25,7 @@ The constants defined in \emph{aiRthermoConstants} data are necessary.
 }
 }
 \value{
-  This function returns a vector with pressure values
+  This function returns a vector with pressure values.
 }
 
 \examples{

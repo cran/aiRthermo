@@ -5,7 +5,7 @@
 Thermodynamic (STUVE) Diagram
 }
 \description{
-This function generates an Stüve diagram
+This function generates an Stüve diagram.
 
 }
 \usage{
@@ -23,10 +23,10 @@ A vector with temperature values in Celsius .
 An optional vector with dew point temperatures in Celsius. The default value is NA.
 }
   \item{XLIM}{
-X axis limit in Celsius. Default value is c(-80, 45)
+X axis limit in Celsius. Default value is c(-80, 45).
 }
   \item{YLIM}{
-Y axis limit in hPa. Default value is c(1050, 100)
+Y axis limit in hPa. Default value is c(1050, 100).
 }
 
 }

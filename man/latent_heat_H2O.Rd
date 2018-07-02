@@ -13,14 +13,14 @@ latent_heat_H2O(Temps)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Temps}{
-    A vector with temperature values (K)
+    A vector with temperature values (K).
 }
 }
 \details{
-Taking into account the observed values in tables from Rogers and Yau (1989) and Feistel and Wagner (2006), a polynomial model is used to calculate the latent heat at different temperatures
+Taking into account the observed values in tables from Rogers and Yau (1989) and Feistel and Wagner (2006), a polynomial model is used to calculate the latent heat at different temperatures.
 }
 \value{
-    This function returns the latent heat of vaporization or sublimation of water
+    This function returns the latent heat of vaporization or sublimation of water.
 }
 \references{
 Rogers, R. R., and  Yau, M. K. (1989). A Short Course in Cloud Physics, 3rd Edition, Pergamon Press, Oxford.

@@ -20,6 +20,7 @@ Copyright (C) 2017, Jon Saenz, Sheila Carreno and Santi Gonzalez-Roji
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 #include <string.h>
 /* #include <stdio.h> */
 #include <math.h>
@@ -1377,14 +1378,13 @@ Get the value for the environment of the parcel
 ap that is lifting accross the sounding
 given by pvalues[nlevels] (Pa), Tvalues[nlevels] (K)
 and wvalues[nlevels] (kg/kg), at pressure pto. If the computation
-performs properly, OK is assigned 1. If correct_w is
-set to a non-zero value, the correct value of w is iused,
-the vertical interpolation is logarithmic if doLog==1.
+performs properly, OK is assigned 1. 
+The vertical interpolation is logarithmic if doLog==1.
 */
 void environment_data( AirParcelPtr ap , double *pvalues,
 				     double *Tvalues, double *wvalues,
 				     int nlevels , int *OK , double pto,
-                                     int correct_w ,int doLog)
+                                     int doLog)
 {
   int out;
 
@@ -1396,21 +1396,17 @@ void environment_data( AirParcelPtr ap , double *pvalues,
   ap->t=interpolate_in_p(Tvalues,pvalues,nlevels,pto,&out,doLog);
   if (out){
     *OK=0;
-    return;
   }
-  if (correct_w){
-    ap->w=interpolate_in_p(wvalues,pvalues,nlevels,pto,&out,doLog);
-    if (out){
-      *OK=0;
-      return;
-    }
+  ap->w=interpolate_in_p(wvalues,pvalues,nlevels,pto,&out,doLog);
+  if (out){
+    *OK=0;
   }
   setParcelState(ap);
 }
 
 static int isBuoyant( AirParcelPtr  liftParcel , AirParcelPtr ambParcel )
 {
-  return (liftParcel->Tv>ambParcel->Tv) ;
+  return ((liftParcel->Tv)>=(ambParcel->Tv)) ;
 }
 
 /*
@@ -1453,31 +1449,43 @@ void adiabatic_evolution( AirParcelPtr ap , double dP , int goDown )
 }
 
 
-#define MYDEBUG 1
+/* #define MYDEBUG 1 */
 #undef MYDEBUG 
 
 #ifdef MYDEBUG
 void displayParcels( AirParcelPtr lb , AirParcelPtr lu,
 		     AirParcelPtr ab , AirParcelPtr au,
 		     int stage , double dE , double *cin,
-		     double *cape )
+		     double *cape)
 {
     FILE *ofile=fopen("capecin.log","a");
-    fprintf(ofile,"LB %8.2f %5.1f  %5.3f ",
-	    lb->p/100,lb->t,lb->w/lb->wsat);
-    fprintf(ofile,"AB %8.2f %5.1f %5.3f ",
-	    ab->p/100,ab->t,ab->w/ab->wsat);
-    fprintf(ofile,"LU %8.2f %5.1f %5.3f ",
-	    lu->p/100,lu->t,lu->w/lu->wsat);
-    fprintf(ofile,"AU %8.2f %5.1f %5.3f ",
-	    au->p/100,au->t,au->w/au->wsat);
-    fprintf(ofile," %5.2f %5.2f %5.2f %d\n",dE,*cin,*cape , stage);
+    char *fmstr="%s %11.6f hPa %11.6f K %9.6f g/kg %9.6f %% %9.6f kg/m3\n";
+    AirParcelPtr app;
+
+    app=lb;
+    fprintf(ofile,fmstr,"LB",
+	    app->p/100,app->t,app->w*1000,app->w/app->wsat,
+	    density(app->p,virtual_temperature(app->t,app->w,app->p)));
+    app=ab;
+    fprintf(ofile,fmstr,"AB",
+	    app->p/100,app->t,app->w*1000,app->w/app->wsat,
+	    density(app->p,virtual_temperature(app->t,app->w,app->p)));
+    app=lu;
+    fprintf(ofile,fmstr,"LU",
+	    app->p/100,app->t,app->w*1000,app->w/app->wsat,
+	    density(app->p,virtual_temperature(app->t,app->w,app->p)));
+    app=au;
+    fprintf(ofile,fmstr,"AU",
+	    app->p/100,app->t,app->w*1000,app->w/app->wsat,
+	    density(app->p,virtual_temperature(app->t,app->w,app->p)));
+    fprintf(ofile,"Is lifted Buoyant? L: %d U: %d\n",
+	    isBuoyant(lb,ab),isBuoyant(lu,au));
+
+    fprintf(ofile,"dE %5.2f J CAPE %5.2f CIN %5.2f stage: %d\n\n",dE,
+	    *cin,*cape , stage);
     fclose(ofile);
 }
 #endif
-
-#define _DEBUG_0_IN_CAPE 1
-#undef _DEBUG_0_IN_CAPE
 
 int save2lifted( AirParcelPtr ap, double *Pl, double *Tl,
 		 double *wl, int Nl, int *ol , int nline )
@@ -1491,7 +1499,7 @@ int save2lifted( AirParcelPtr ap, double *Pl, double *Tl,
     } else
       *ol=0;
   }
-#ifdef _DEBUG_0_IN_CAPE
+#ifdef MYDEBUG
   if (ap->t<99){
     fprintf(stderr,"Line: %d with T < 100 in %d\n",nline,*ol);
   }
@@ -1499,6 +1507,34 @@ int save2lifted( AirParcelPtr ap, double *Pl, double *Tl,
   /* Avoid compiler messages */
   nline=0;
   return *ol;
+}
+
+void checkLCL( int *gotLCL, AirParcelPtr apLCL , AirParcelPtr lb,
+	       AirParcelPtr lu , AirParcelPtr ab, AirParcelPtr au )
+{
+  double deltaWu, deltaWb;
+  double pb,pu;
+  double tb,tu;
+  double wb,wu;
+  
+  if (*gotLCL){
+    return;
+  }
+  deltaWb=lb->w-lb->wsat;
+  deltaWu=lu->w-lu->wsat;
+  pb=lb->p;
+  pu=lu->p;
+  tb=lb->t;
+  tu=lu->t;
+  wb=lb->w;
+  wu=lu->w;
+  if ((deltaWb<0)&&(deltaWu>=0)){
+    *gotLCL=1;
+    apLCL->p=pb-deltaWb*(pu-pb)/(deltaWu-deltaWb);
+    apLCL->t=tb+(tu-tb)*(apLCL->p-pb)/(pu-pb);
+    apLCL->w=wb+(wu-wb)*(apLCL->p-pb)/(pu-pb);
+    setParcelState(apLCL);
+  }
 }
 
 
@@ -1525,6 +1561,31 @@ with *Olifted holding the real number of levels on output
 */
 #define ADIABATIC_PRE_COOL 1
 #define ISOBARIC_PRE_COOL  2
+
+/*
+Lifted particle crosses the sounding from Right to left
+*/
+static int isR2LCrossing(AirParcelPtr ab,
+		    AirParcelPtr au,
+		    AirParcelPtr lb,
+		    AirParcelPtr lu )
+{
+  return (((lb->Tv) > (ab->Tv))&&((au->Tv) >= (lu->Tv)));
+}
+
+/*
+Lifted particle crosses the sounding from left to right
+*/
+/*
+static int isL2RCrossing(AirParcelPtr ab,
+		    AirParcelPtr au,
+		    AirParcelPtr lb,
+		    AirParcelPtr lu )
+{
+  return ((lb->Tv<ab->Tv)&&((lu->Tv)>=(au->Tv)));
+}
+*/
+
 
 #define DEBUG_ENTRY 1
 /* undef DEBUG_ENTRY */
@@ -1561,19 +1622,17 @@ int CAPE_CIN_C( double p0,
   int OK;
   double Ptop;
   double Plow;
-  double PLFC,PEL;
+  /*double PLFC,PEL;*/
   double dE;
   AirParcel ambient;
   AirParcel start;
   AirParcel lb,lu;
   AirParcel ab,au;
-  /* Needed for the intermediate point LFC */
-  AirParcel atmp;
-  AirParcel ltmp;
   int ilow;
   double dP;
   double negEtemp;
-  double Pcross;
+  double nextP;
+  double Pmiddle;
 
 #ifdef MYDEBUG
   int stage=0;
@@ -1600,9 +1659,9 @@ int CAPE_CIN_C( double p0,
 
 #ifdef MYDEBUG
   {
-    FILE *ofile=fopen("capecin.log","w");
+    FILE *ofile=fopen("capecin.log","a");
     fprintf(ofile,
-	    "# Input: %g Pa, %g K, %g g/kg PlowTop %f precool %d usePTW0 %d\n",
+	    "# Input: %11.5f Pa, %11.5f K, %11.5f g/kg PlowTop %9.5f precool %d usePTW0 %d\n",
 	    p0,t0,w0*1000,PlowTop,pre_cool_type,usePTW0);
     fclose(ofile);
   }
@@ -1649,8 +1708,11 @@ int CAPE_CIN_C( double p0,
 #ifdef MYDEBUG
   {
     FILE *ofile=fopen("capecin.log","a");
-    fprintf(ofile,"# Start values: %g Pa, %g K, %g g/kg\n",
-	   start.p,start.t,start.w*1000);
+    fprintf(ofile,
+	    "# Start values: %11.5f Pa, %11.5f K, %11.5f g/kg %9.5g g/kg\n",
+	    start.p,start.t,start.w*1000,
+	    saturation_mixing_ratio(start.p,start.t)
+	    );
     fclose(ofile);
   }
 #endif
@@ -1658,7 +1720,7 @@ int CAPE_CIN_C( double p0,
   /* Initialize ambient parcel at the beginning state */
   /* printf("start.p %g %g %g\n",start.p,pvalues[0],pvalues[1]); */
   environment_data(&ambient,pvalues,Tvalues,wvalues,nlevels,
-		   &OK,start.p,1,doLog);
+		   &OK,start.p,doLog);
   if(OK!=1){
     *cape=MISSING_VALUE;
     *cin=MISSING_VALUE;
@@ -1671,7 +1733,7 @@ int CAPE_CIN_C( double p0,
      CIN is never computed. Only if the use of fixed initial
      conditions is NOT enforced and only if ambient cooler than lifted
   */
-  if ((!usePTW0)){
+  if ((!usePTW0) || (Plow>PlowTop)){
     /************ Adiabatic precooling *******/
     if (pre_cool_type==ADIABATIC_PRE_COOL){
       /* Cycle adiabatically upwards */
@@ -1680,7 +1742,7 @@ int CAPE_CIN_C( double p0,
 	   the ambient temperature might get cooler */
 	adiabatic_evolution(&start,dP,0);
 	environment_data(&ambient,pvalues,Tvalues,wvalues,nlevels,
-			 &OK,start.p,1,doLog);
+			 &OK,start.p,doLog);
 	if (!OK){
 	  break;
 	}
@@ -1697,7 +1759,7 @@ int CAPE_CIN_C( double p0,
     /* Second option for precooling (preconditioning the air parcel) */
     if (pre_cool_type==ISOBARIC_PRE_COOL){
       /* Correct moisture in this case, keep original w at the sounding */
-      environment_data(&start,pvalues,Tvalues,wvalues,nlevels,&OK,start.p,1,
+      environment_data(&start,pvalues,Tvalues,wvalues,nlevels,&OK,start.p,
 		       doLog);
       if (!OK){
 	*cape=MISSING_VALUE;
@@ -1706,7 +1768,7 @@ int CAPE_CIN_C( double p0,
       }      
       /* Proper environment mix ratio here */
       environment_data(&ambient,pvalues,Tvalues,wvalues,nlevels,&OK,start.p,
-		       1,doLog);
+		       doLog);
       if (!OK){
 	return 5;
       }      
@@ -1716,10 +1778,16 @@ int CAPE_CIN_C( double p0,
 #ifdef MYDEBUG
   {
     FILE *ofile=fopen("capecin.log","a");
-    fprintf(ofile,"# Parcel after precool: %g Pa, %g K, %g g/kg\n",
-	   start.p,start.t,start.w*1000);
-    fprintf(ofile,"# Ambient after precool: %g Pa, %g K, %g g/kg\n",
-	   ambient.p,ambient.t,ambient.w*1000);
+    fprintf(ofile,	    
+	    "# Parcel after precool: %11.5f Pa, %11.5f K, %11.5f g/kg %9.5g g/kg\n",
+	    start.p,start.t,start.w*1000,
+    	    saturation_mixing_ratio(start.p,start.t)
+	    );
+    fprintf(ofile,
+	    "# Ambient after precool: %11.5f Pa, %11.5f K, %11.5f g/kg %9.5g g/kg\n",
+	    ambient.p,ambient.t,ambient.w*1000,
+    	    saturation_mixing_ratio(start.p,start.t)
+	    );
     fclose(ofile);
   }
 #endif
@@ -1750,339 +1818,113 @@ int CAPE_CIN_C( double p0,
   adiabatic_evolution(&lu,dP,0);
 
   /* Find ambient data at the top */
-  environment_data(&au,pvalues,Tvalues,wvalues,nlevels,&OK,lu.p,1,doLog);
-
+  environment_data(&au,pvalues,Tvalues,wvalues,nlevels,&OK,lu.p,doLog);
   if (!OK){
     *cape=MISSING_VALUE;
     *cin=MISSING_VALUE;
     return 6;
   }
+  checkLCL(gotLCL,apLCL,&lb,&lu,&ab,&au);
 
-  /* Evaluate CIN (only if lifted upper is cooler than up. ambnt) */
+  /* Main CYCLE */
+  /* Initialize values for holders and process the full sounding */
   *cin=0.0;
-  /* Just in case, if already saturated, this is LCL */
-  if (lb.w>=lb.wsat){
-    memcpy(apLCL,(void*)(&lb),sizeof(AirParcel));
-    *gotLCL=1;
-  }
-  /* Go upwards until the end of the sounding or LFC */
-  while((lu.p>=Ptop) && (lu.t<au.t) ){
+  *cape=0.0;
+  negEtemp=0.0;
+  while((lu.p>Ptop)){
     /* Store if needed */
     *Olifted=save2lifted(&lu,Plifted,Tlifted,wlifted,Nlifted,Olifted,__LINE__);
-
-    /* Energy of the slab */
+    /* Compute energy from slab */
     dE=energy_area(ab.p,ab.Tv,au.Tv,lb.Tv,lu.Tv,dP);
-    /* Accumulate into CIN */
-    *cin+=dE;
-    
 #ifdef MYDEBUG
-    displayParcels(&lb,&lu,&ab,&au,stage,dE,cin,cape);
+    printf("dE,%g %g %g %g %g %g %g %g\n",dE,ab.p,ab.Tv,au.Tv,lb.Tv,lu.Tv,*cape,*cin);
 #endif
 
-    /* Upper layer to bottom for ambient and lifted */
+    /* Assign energy of the slab depending on its sign */
+    if (dE<0){
+      /* For CIN and upToTop, accumulate into CIN only if it is
+	 later buoyant somewhere. Otherwise, stability after
+	 EL inflates CIN a lot
+      */
+      if(upToTop)
+	negEtemp+=dE;
+      else{
+	if (*gotLFC==0)
+	  *cin+=dE;
+      }
+    }else{
+      *cape+=dE;
+    }
+    /* Get LFC from buoyancy */
+    if (isBuoyant(&lu,&au)){
+      if(! *gotLFC){
+	*gotLFC=1;
+	/* Record LFC for output */
+	Pmiddle=(ab.p+au.p)/2.;
+	environment_data(apLFC,
+			 pvalues,Tvalues,wvalues,nlevels,&OK,Pmiddle,doLog);
+	if (!OK){
+	  *cape=MISSING_VALUE;
+	  *cin=MISSING_VALUE;
+	  return 7;
+	}
+	setParcelState(apLFC);
+      }
+      /* 
+	 If some negative energy remains from previous steps
+	 and now the parcel is again buoyant, pass it to CIN
+      */
+      if(upToTop){
+	*cin+=negEtemp;
+	negEtemp=0.0;
+      }
+    }
+    /* Find EL from sounding crossing */
+    if (isR2LCrossing(&ab,&au,&lb,&lu )){
+      if ((upToTop)||(*gotEL==0)){
+	/* Record always the last EL if upToTop*/
+	*gotEL=1;
+	Pmiddle=(ab.p+au.p)/2.;
+	environment_data(apEL,
+			 pvalues,Tvalues,wvalues,nlevels,&OK,Pmiddle,doLog);
+	if (!OK){
+	  *cape=MISSING_VALUE;
+	  *cin=MISSING_VALUE;
+	  return 7;
+	}
+	setParcelState(apEL);
+      }	  
+    }
+    /* If not requested to top but gotEL, it's finished */
+    if ((*gotEL) && (!upToTop)){
+      break;
+    }
+    /* next step UP, limiting access to top level */
+    nextP=lu.p-deltaP;
+    if(nextP<Ptop){
+      nextP=Ptop;
+    }
+    
+    /* Find next parcels, first, UP parcels stored as bottom */
     memcpy((void*)(&ab),(void*)(&au),sizeof(AirParcel));
     memcpy((void*)(&lb),(void*)(&lu),sizeof(AirParcel));
-    /* Adiabatic evolution for lifted */
-    adiabatic_evolution(&lu,dP,0);
+    
+    /* Bottom lifted to next lifted by an adiabatic evolution, ensure to Ptop */
+    adiabatic_evolution(&lu,(lu.p-nextP),0);
     /* New environment from sounding at new upper */
-    environment_data(&au,pvalues,Tvalues,wvalues,nlevels,&OK,lu.p,1,doLog);
+    environment_data(&au,pvalues,Tvalues,wvalues,nlevels,&OK,lu.p,doLog);
     if (!OK){
       *cape=MISSING_VALUE;
       *cin=MISSING_VALUE;
       return 7;
     }
-    /* If bottom is saturated (upper at start of the cycle not tested be4), 
-       this is LCL, save it */
-    if ((lb.w>=lb.wsat) && (*gotLCL==0)){
-      memcpy((void*)apLCL,(void*)(&lb),sizeof(AirParcel));
-      *gotLCL=1;
-    }
+    /* LCL is always checked */
+    checkLCL(gotLCL,apLCL,&lb,&lu,&ab,&au);
+    /* This must always happen for pressures, but check just in case */
+    if ((lb.p!=ab.p)||(lu.p!=au.p))
+      return 8;
   }
-  /* 
-     If upper is saturated and was not caught in the previous cycle
-     (LCL almost at LFC), get it now
-  */
-  if (!*gotLCL){
-    if (lu.w>=lu.wsat){
-       memcpy((void*)(apLCL),(void*)(&lu),sizeof(AirParcel));
-      *gotLCL=1;
-    }
-  }
-  /* In any case, save LCL */
-  if (*gotLCL){
-     *Olifted=save2lifted(apLCL,Plifted,Tlifted,wlifted,Nlifted,Olifted,__LINE__);
-  }
-
-  /* 
-     If over Ptop, LFC/EL do not exist 
-  */
-  if (lu.p<Ptop){
-    *gotLFC=0;
-    *gotEL=0;
-    *cape=MISSING_VALUE;
-    return 8;
-  }  
-  /* Check, if it is not true, you have a tremendous BUG */
-  if ((lu.p!=au.p) || (lb.p!=ab.p)){
-    /* fprintf(stderr,"This is not a bug, this is a Tyranosaurus REX\n"); */
-    return 9;
-  }
-  
-  /* Check, lines must cross, otherwise, we have a serious problem */
-  if ((lu.t<au.t)||(lb.t>ab.t)){
-    /* fprintf(stderr,"You must not be here\n"); */
-    return 10;
-  }
-  
-  /* find LFC pressure by linear interpolation */
-  PLFC=lb.p+(lb.t-ab.t)*(lu.p-lb.p)/(au.t-ab.t-lu.t+lb.t);
-  /* Ambient at LFC is found this way */
-  environment_data(apLFC,pvalues,Tvalues,wvalues,nlevels,&OK,PLFC,1,doLog);
-  if(!OK){
-    return 11;
-  }else{
-    *gotLFC=1;
-  }
-  memcpy((void*)&atmp,(void*)apLFC,sizeof(AirParcel));
-  *Olifted=save2lifted(apLFC,Plifted,Tlifted,wlifted,Nlifted,Olifted,__LINE__);
-  /* 
-     Lifted at PLFC is assumed to be the same P,T (otherwise, small 
-     closure problems might appear due to the interpolation).
-     Thus, do not worry about the parameters in the next call, 
-     upper parcel is the same, not an error. Check for the slab not being
-     empty (if started from first point, depending on width and precool)
-  */
-  memcpy((void*)&ltmp,(void*)apLFC,sizeof(AirParcel));
-  /* but lifted is saturated */
-  ltmp.w=saturation_mixing_ratio(ltmp.p,ltmp.t);
-  setParcelState(&ltmp);
-  if (fabs(PLFC-ab.p)>0){
-    dE=energy_area(ab.p,ab.Tv,atmp.Tv,lb.Tv,ltmp.Tv,fabs(PLFC-ab.p));
-    /* Accumulate into CIN */
-    *cin+=dE;
-  }
-  
-  /* We found the crossing point, next part into CAPE, bottom is common */
-  dE=energy_area(atmp.p,atmp.Tv,au.Tv,ltmp.Tv,lu.Tv,fabs(au.p-PLFC));
-  /* Accumulate into CAPE */
-  *cape=dE;
-  *Olifted=save2lifted(&au,Plifted,Tlifted,wlifted,Nlifted,Olifted,__LINE__);
-  /* Set new lb, ab, lu, au and go into the next cycle */
-  memcpy((void*)&ab,(void*)&au,sizeof(AirParcel));
-  memcpy((void*)&lb,(void*)&lu,sizeof(AirParcel));
-  adiabatic_evolution(&lu,dP,0);
-  environment_data(&au,pvalues,Tvalues,wvalues,nlevels,&OK,lu.p,1,doLog);
-  if (!OK){
-    *cape=MISSING_VALUE;
-    return 12;
-  }
-  
-  
-#ifdef MYDEBUG
-  stage=2;
-  displayParcels(&lb,&lu,&ab,&au,stage,dE,cin,cape);
-#endif
-  
-  while((lu.p>=Ptop) && (lu.t>=au.t) ){
-    /* Save for caller, if requested */
-    *Olifted=save2lifted(&au,Plifted,Tlifted,wlifted,Nlifted,Olifted,__LINE__);
-
-    dE=energy_area(ab.p,ab.Tv,au.Tv,lb.Tv,lu.Tv,dP);
-    *cape+=dE;
-#ifdef MYDEBUG
-    stage=3;
-    displayParcels(&lb,&lu,&ab,&au,stage,dE,cin,cape);
-#endif
-    memcpy((void*)(&ab),(void*)(&au),sizeof(AirParcel));
-    memcpy((void*)(&lb),(void*)(&lu),sizeof(AirParcel));
-    adiabatic_evolution(&lu,dP,0);
-    environment_data(&au,pvalues,Tvalues,wvalues,nlevels,&OK,lu.p,1,doLog);
-    if (!OK){
-      FILE *mystderr=fopen("mystderr.out","w");
-      if (mystderr){
-	fprintf(mystderr,"Out at au %g %g %g lu %g %g %g\n",au.p,au.t,au.w*1000,
-		lu.p,lu.t,lu.w*1000);
-	fprintf(mystderr,"Out at ab %g %g %g lb %g %g %g\n",ab.p,ab.t,ab.w*1000,
-		lb.p,lb.t,lb.w*1000);
-	fprintf(mystderr,"Ptop: %g OK %d\n",Ptop,OK);
-      }
-      fclose(mystderr);
-      *cape=MISSING_VALUE;
-      return 13;
-    }
-    if (lu.t < au.t){
-      break;
-    }
-  }
-  if (lu.t < au.t){
-    *gotEL=1;
-    /* find EL pressure by linear interpolation */
-    PEL=lb.p+(lb.t-ab.t)*(lu.p-lb.p)/(au.t-ab.t-lu.t+lb.t);
-    /* Ambient at EL is found this way */
-    environment_data(apEL,pvalues,Tvalues,wvalues,nlevels,&OK,PEL,1,doLog);
-    if(!OK){
-      return 14;
-    }else{
-      *gotEL=1;
-    }
-    memcpy((void*)&atmp,(void*)apEL,sizeof(AirParcel));
-    /* 
-       Lifted at PLFC is assumed to be the same (otherwise, small 
-       closure problems might appear due to the interpolation). But ..
-       saturated by definition
-    */
-    memcpy((void*)&ltmp,(void*)apEL,sizeof(AirParcel));
-    /* but lifted is saturated */
-    ltmp.w=saturation_mixing_ratio(ltmp.p,ltmp.t);
-    setParcelState(&ltmp);
-    *Olifted=save2lifted(&ltmp,Plifted,Tlifted,wlifted,Nlifted,Olifted,__LINE__);
-    /* Energy of the slab */
-    dE=energy_area(ab.p,ab.Tv,atmp.Tv,lb.Tv,atmp.Tv,fabs(PEL-ab.p));
-    /* Accumulate into CAPE */
-    *cape+=dE;
-  }
-#ifdef MYDEBUG
-  stage=4;
-  displayParcels(&lb,&lu,&ab,&au,stage,dE,cin,cape);
-#endif
-  /* Must go on ... */
-  if (upToTop==1){
-      /* Initialize negEtemp */
-      negEtemp=0.0;
-      /* Start from previous apEL, initialize environment and lifted */
-      /* apEL is next bottom */
-      memcpy((void*)&lb,(void*)apEL,sizeof(AirParcel));
-      /* But, by definition, lifted parcel is saturated by now */
-      lb.w=saturation_mixing_ratio(lb.p,lb.t);
-      setParcelState(&lb);
-      /* Ambient is just ambient */
-      memcpy((void*)&ab,(void*)apEL,sizeof(AirParcel));
-      /* We proceed up adiabatically from lb (already saturated) */
-      memcpy((void*)&lu,(void*)&lb,sizeof(AirParcel));
-      adiabatic_evolution(&lu,dP,0);
-      environment_data(&au,pvalues,Tvalues,wvalues,nlevels,&OK,lu.p,1,doLog);
-      if (!OK){
-	return 15;
-      }
-      /* Cycle when below the top level of the sounding and above 75 hPa */
-      while((lu.p>Ptop) && (lu.p>7500)){
-	*Olifted=save2lifted(&lu,Plifted,Tlifted,wlifted,
-			     Nlifted,Olifted,__LINE__);
-	
-	/* Compute and accumulate energies depending on the signs */
-	if (isBuoyant(&lb,&ab)){
-
-	  
-	  if (isBuoyant(&lu,&au)){
-	    /* Everything is buoyant, accumulate to CAPE and go ahead */
-	    *cape+=energy_area(lb.p,ab.Tv,au.Tv,lb.Tv,lu.Tv,dP);
-#ifdef MYDEBUG
-	    stage=5;
-	    displayParcels(&lb,&lu,&ab,&au,stage,dE,cin,cape);
-#endif
-
-	    
-	  }else{
-
-	    
-	    /* Find crosspoint, upper part to CIN (temp.), lower to CAPE */
-	    Pcross=lb.p+(lb.t-ab.t)*(lu.p-lb.p)/(au.t-ab.t-lu.t+lb.t);
-	    /* Ambient at cross point is found this way */
-	    environment_data(&atmp,pvalues,Tvalues,wvalues,nlevels,&OK,Pcross,
-			     1,doLog);
-	    if(!OK){
-	      return 15;
-	    }
-	    /* Set new EL here */
-	    *gotEL=1;
-	    /* Save EL */
-	    memcpy((void*)apEL,(void*)&atmp,sizeof(AirParcel));
-	    /* Lifted at new EL (cross) */
-	    ltmp.p=Pcross;
-	    ltmp.t=atmp.t;
-	    ltmp.w=saturation_mixing_ratio(ltmp.p,ltmp.t);
-	    setParcelState(&ltmp);
-	    /* This to CAPE */
-	    *cape+=energy_area(lb.p,ab.Tv,atmp.Tv,lb.Tv,ltmp.Tv,
-			       fabs(Pcross-ab.p));
-	    /* This to CIN if it becomes buoyant again */
-	    negEtemp=energy_area(atmp.p,atmp.Tv,au.Tv,atmp.Tv,lu.Tv,
-			       fabs(Pcross-au.p));
-#ifdef MYDEBUG
-	    stage=6;
-	    displayParcels(&lb,&lu,&ab,&au,stage,dE,cin,cape);
-#endif
-	    
-	  }
-	  
-	}else{
-
-	  
-	  if (isBuoyant(&lu,&au)){
-	    
-	    /* Find cross-point, lower to cross-p to negEtemp, upper to CAPE */
-	    Pcross=lb.p+(lb.t-ab.t)*(lu.p-lb.p)/(au.t-ab.t-lu.t+lb.t);
-	    /* Ambient at cross point is found this way */
-	    environment_data(&atmp,pvalues,Tvalues,wvalues,nlevels,&OK,Pcross,
-			     1,doLog);
-	    if(!OK){
-	      return 15;
-	    }
-	    /* Lifted at new cross point */
-	    ltmp.p=Pcross;
-	    ltmp.t=atmp.t;
-	    ltmp.w=saturation_mixing_ratio(ltmp.p,ltmp.t);
-	    setParcelState(&ltmp);
-	    /* This to temporary CIN */
-	    negEtemp+=energy_area(lb.p,ab.Tv,atmp.Tv,lb.Tv,ltmp.Tv,
-			       fabs(Pcross-ab.p));
-#ifdef MYDEBUG
-	    stage=6;
-	    displayParcels(&lb,&lu,&ab,&au,stage,dE,cin,cape);
-#endif
-	    
-	    /* Upper buoyant again, if tempNeg!=0, pass to CIN */
-	    /* Might be, discuss */
-	    if (checkBuoyancy){
-	      if (*cape > *cin )
-		*cin+=negEtemp;
-	    }else
-	      *cin+=negEtemp;
-	    negEtemp=0.0;
-	    /* This to CAPE, it is buoyant again */
-	    *cape=energy_area(atmp.p,atmp.Tv,au.Tv,atmp.Tv,lu.Tv,
-			       fabs(Pcross-ab.p));
-
-
-	  }else{
-
-	    
-	    /* 
-	       Nothing is buoyant, send to negEtemp, will only be accumulated
-	       to CIN if bouyant again "somewhere" up
-	    */
-	    negEtemp+=energy_area(lb.p,ab.Tv,au.Tv,lb.Tv,lu.Tv,dP);
-#ifdef MYDEBUG
-	    stage=7;
-	    displayParcels(&lb,&lu,&ab,&au,stage,dE,cin,cape);
-#endif
-	    
-	  }
-
-	}
-
-	/* Next parcel, upper(s) become lower(s) */
-	memcpy((void*)(&ab),(void*)(&au),sizeof(AirParcel));
-	memcpy((void*)(&lb),(void*)(&lu),sizeof(AirParcel));
-	adiabatic_evolution(&lu,dP,0);
-	environment_data(&au,pvalues,Tvalues,wvalues,nlevels,&OK,lu.p,1,doLog);
-	if (!OK){
-	  return 15;
-	}
-
-      }
-  }
+  /* End of the main CYCLE */
   return 0;
 }
-
 

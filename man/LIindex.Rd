@@ -14,13 +14,13 @@ LIindex(Ps, Ts, ws, Psurface, deltaP, PWIDTH, doLog = 0)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Ps}{
-Pressure (Pa) of the sounding
+Pressure (Pa) of the sounding.
 }
   \item{Ts}{
-Temperature (K) of the sounding
+Temperature (K) of the sounding.
 }
   \item{ws}{
-Mixing ratio (kg/kg) of the sounding
+Mixing ratio (kg/kg) of the sounding.
 }
   \item{Psurface}{
 Surface pressure (Pa). If not available, the first level of the sounding can be used.
@@ -44,12 +44,11 @@ The evolution of the lifted particle is computed by integrating the dT/dP ordina
 If the sounding does not enclose the needed level of 500 hPa and the interpolation fails, the function returns -99999999.
 }
 \value{
-%%???
-This function returns the LI index (Celsius)
+
+This function returns the LI index (Celsius).
 }
 \references{
-Tsonis, A. A. (2002). An Introduction to Atmospheric Thermodynamics, Cam-
-563 bridge University Press, Cambridge. Eq. 7.11.
+Tsonis, A. A. (2002). An Introduction to Atmospheric Thermodynamics, Cambridge University Press, Cambridge. Eq. 7.11.
 }
 
 \examples{

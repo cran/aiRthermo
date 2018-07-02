@@ -5,7 +5,7 @@
 From Kelvin to Celsius degrees
 }
 \description{
-This function makes the transformation from Kelvin degrees to Celsius
+This function makes the transformation from Kelvin degrees to Celsius.
 }
 \usage{
 K2C(Tk, consts = export_constants())
@@ -13,15 +13,15 @@ K2C(Tk, consts = export_constants())
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Tk}{
-  A vector of temperatures in Kelvin degrees
+  A vector of temperatures in Kelvin degrees.
 }
   \item{consts}{
-  This function uses the \eqn{T_0} constant corresponding to 0 degree Celsius as K
+  This function uses the \eqn{T_0} constant corresponding to 0 degree Celsius as K.
 }
 }
 
 \value{
-This function returns a vector of temperatures in Celsius degrees
+This function returns a vector of temperatures in Celsius degrees.
 }
 
 \seealso{

@@ -13,13 +13,13 @@ rh2w(P, Temp, rh, consts = export_constants())
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{P}{
-A vector with pressure values in Pa
+A vector with pressure values in Pa.
 }
   \item{Temp}{
-A vector with temperature values in Kelvin
+A vector with temperature values in Kelvin.
 }
   \item{rh}{
-A vector with relative humidity values in (\%)
+A vector with relative humidity values in (\%).
 }
   \item{consts}{
 The constants defined in \emph{aiRthermoConstants} data are necessary. 

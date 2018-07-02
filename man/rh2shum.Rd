@@ -5,7 +5,7 @@
 Specific Humidity from relative humidity
 }
 \description{
-This function calculates the specific humidity from a given relative humidity
+This function calculates the specific humidity from a given relative humidity.
 }
 \usage{
 rh2shum(P, Temp, rh, consts = export_constants())
@@ -13,20 +13,20 @@ rh2shum(P, Temp, rh, consts = export_constants())
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{P}{
-A vector with pressure values (Pa)
+A vector with pressure values (Pa).
 }
   \item{Temp}{
-A vector with temperature values (Kelvin)
+A vector with temperature values (Kelvin).
 }
   \item{rh}{
-A vector with relative humidity values (\%)
+A vector with relative humidity values (\%).
 }
   \item{consts}{
 The constants defined in \emph{aiRthermoConstants} data are necessary.
 }
 }
 \value{
-This function returns a vector with specific humidity (kg/kg)
+This function returns a vector with specific humidity (kg/kg).
 }
 \seealso{
 \code{\link{rh2shum}}

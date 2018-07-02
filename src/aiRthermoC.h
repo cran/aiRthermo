@@ -314,14 +314,13 @@ Get the value for the environment of the parcel
 ap that is lifting accross the sounding
 given by pvalues[nlevels] (Pa), Tvalues[nlevels] (K)
 and wvalues[nlevels] (kg/kg), at pressure pto ("pto=Pressure going TO"). 
-If the computation  performs properly, OK is assigned 1. If correct_w is
-set to a non-zero value, the correct value of w is used,
-the vertical interpolation is logarithmic if doLog==1.
+If the computation  performs properly, OK is assigned 1.
+The vertical interpolation is logarithmic if doLog==1.
 */
 void environment_data( AirParcelPtr ap , double *pvalues,
 				     double *Tvalues, double *wvalues,
 				     int nlevels , int *OK , double pto,
-		       int correct_w , int doLog );
+		       int doLog );
 
 /*
 Get values of the air parcel ap after a change in pressure deltaP (Pa).

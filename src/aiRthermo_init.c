@@ -8,7 +8,7 @@
 /* .C calls */
 extern void adiabatic_ascent_Rworld(void *, void *, void *, void *, void *, void *, void *);
 extern void any_adiabatic_down_Rworld(void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void CAPE_CIN_Rworld(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern void CAPE_CIN_Rworld(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void * );
 extern void export_constants_Rworld(void *);
 extern void find_lcl_Rworld(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void gamma_sat_P_Rworld(void *, void *, void *, void *);

@@ -13,22 +13,22 @@ AnyAdiabaticDown(Pstart, Tstart, wstart, wcstart, Pend, deltaP)
 
 \arguments{
   \item{Pstart}{
-Initial pressure value (Pa)
+Initial pressure value (Pa).
 }
   \item{Tstart}{
-Initial temperature value (K)
+Initial temperature value (K).
 }
   \item{wstart}{
-Initial mixing ratio value (kg/kg)
+Initial mixing ratio value (kg/kg).
 }
   \item{wcstart}{
-Initial mixing ratio value for the condensates (kg/kg)
+Initial mixing ratio value for the condensates (kg/kg).
 }
   \item{Pend}{
-Final pressure value (Pa)
+Final pressure value (Pa).
 }
   \item{deltaP}{
-Pressure step used for the calculation. It must be a positive value (Pa)
+Pressure step used for the calculation. It must be a positive value (Pa).
 }
 }
 \details{
@@ -36,9 +36,9 @@ In this case, we start from a parcel at pressure pstart (Pa), temperature tstart
 }
 \value{
 This function returns a list including the following values:
-\item{Tend}{Temperature at the end (K)} 
-\item{Wend}{Mixing ratio of water vapour at the end (kg/kg)}
-\item{Wcend}{Mixing ratio of condensed water at the end (kg/kg)}
+\item{Tend}{Temperature at the end (K).} 
+\item{Wend}{Mixing ratio of water vapour at the end (kg/kg).}
+\item{Wcend}{Mixing ratio of condensed water at the end (kg/kg).}
 }
 
 \examples{

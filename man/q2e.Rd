@@ -5,7 +5,7 @@
 Partial Vapour Pressure 
 }
 \description{
-This function calculates the partial vapour pressure from specific humidity
+This function calculates the partial vapour pressure from specific humidity.
 }
 \usage{
 q2e(P, q, consts = export_constants())
@@ -13,17 +13,17 @@ q2e(P, q, consts = export_constants())
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{P}{
-A vector with pressure values (Pa)
+A vector with pressure values (Pa).
 }
   \item{q}{
-A vector with specific humidity values (kg/kg)
+A vector with specific humidity values (kg/kg).
 }
   \item{consts}{
 The constants defined in \emph{aiRthermoConstants} data are necessary.
 }
 }
 \value{
-This function returns the value of the partial vapour pressure (Pa)
+This function returns the value of the partial vapour pressure (Pa).
 }
 
 \examples{
