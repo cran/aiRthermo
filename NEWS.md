@@ -1,3 +1,9 @@
+# Version 1.2.1
+
+* The Stuve_diagram function has been deeply updated. Line colours, types and widths are user-adjustable in this version. Additionally, the lines included in the plot are available until 20 hPa and the limits of both axis can be changed according to this value. 
+
+* A previous bug introduced in version 1.2 that prevented the constant mixing ratio lines to appear in the diagram has been solved. Thanks to Dr. Clemens Drüe for reporting us about it. 
+
 # Version 1.2
 
 * Corrected some parts of the internal C function that computes CAPE and CIN that were executed when upToTop is TRUE. There is no need to change calling programs. The structure of return values hasn't changed, either.
