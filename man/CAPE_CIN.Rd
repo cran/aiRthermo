@@ -120,10 +120,10 @@ capeCin<-CAPE_CIN(PlowTop=98000,precoolType="adiabatic",
                   getLiftedBack=TRUE,upToTop=TRUE)
 print(min(capeCin$Tl))
 
-pdf("stuve.pdf")
+#pdf("stuve.pdf")
 stuveA<-stuve_diagram(Pres = aPs/100,Temp=aTs-273.15)
 lines(capeCin$Tl-273.15,capeCin$Pl/100,col="red",lwd=2)
-dev.off()
+#dev.off()
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

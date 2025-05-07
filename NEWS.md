@@ -1,3 +1,7 @@
+# Version 1.2.2
+
+* The creation of the pdfs showing the Stuve diagram within the examples of CAPE_CIN function and the aiRthermo package were omitted to comply with CRAN's requirements.
+
 # Version 1.2.1
 
 * The Stuve_diagram function has been deeply updated. Line colours, types and widths are user-adjustable in this version. Additionally, the lines included in the plot are available until 20 hPa and the limits of both axis can be changed according to this value. 

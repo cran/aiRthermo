@@ -31,10 +31,10 @@ capeCin<-CAPE_CIN(PlowTop=98000,precoolType="adiabatic",
 print(min(capeCin$CAPE))
 
 
-pdf("stuve.pdf")
+#pdf("stuve.pdf")
 stuveA<-stuve_diagram(Pres = aPs/100,Temp=aTs-273.15)
 lines(capeCin$Tl-273.15,capeCin$Pl/100,col="red",lwd=2)
-dev.off()
+#dev.off()
 
 # Adiabatic Ascent
 P0<-101325

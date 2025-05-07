@@ -1,4 +1,5 @@
 q2w <-
-function(q){
-	return( as.double(q/(1.-q)))
+function (q) 
+{
+    return(as.double(q/(1 - q)))
 }
